@@ -4,6 +4,7 @@ def shift_h(im, shift_amount):
     """Shift the image horizontally by shift_amount pixels, 
     use positive numbers to shift the image to the right,
     use negative numbers to shift the image to the left"""
+    im = torch.tensor(im)
     if shift_amount == 0:
         return im
     else:
@@ -23,6 +24,7 @@ def shift_v(im, shift_amount):
     """Shift the image vertically by shift_amount pixels, 
     use positive number to shift the image down, 
     use negative numbers to shift the image up"""
+    im = torch.tensor(im)
     if shift_amount == 0:
         return im
     else:
@@ -43,6 +45,7 @@ def shift_d(im, shift_amount, dir='br'):
     use dir=br to move it to the bottom right,
     use dir=tr to move it to the top right, 
     and use negative numbers to move it in the other direction."""
+    im = torch.tensor(im)
     if shift_amount == 0:
         return im
     elif dir == 'br':
