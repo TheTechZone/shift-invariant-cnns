@@ -7,25 +7,6 @@ import torchvision.transforms as transforms
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-nrEpochs = 5
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-transform = transforms.Compose([
-    transforms.Resize(224),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    transforms.Normalize(mean = [ 0.485, 0.456, 0.406 ],
-                         std = [ 0.229, 0.224, 0.225 ]),
-])
-
-data = torchvision.datasets.ImageFolder(root="./cats_dogs", transform=transform)
-trainset, testset = torch.utils.data.random_split(data, [int(len(data) - len(data)/5), int( len(data)/5 )])
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=32,
-                                          shuffle=True, num_workers=4)
-testloader = torch.utils.data.DataLoader(testset, batch_size=32,
-                                         shuffle=False, num_workers=4)
-
 def get_pad_layer(pad_type):
     if(pad_type in ['refl','reflect']):
         PadLayer = nn.ReflectionPad2d
@@ -154,6 +135,25 @@ class AlexNetNMP(nn.Module):
         return x
 
 if __name__ == "__main__":
+
+    nrEpochs = 5
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    transform = transforms.Compose([
+        transforms.Resize(224),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean = [ 0.485, 0.456, 0.406 ],
+                            std = [ 0.229, 0.224, 0.225 ]),
+    ])
+
+    data = torchvision.datasets.ImageFolder(root="./cats_dogs", transform=transform)
+    trainset, testset = torch.utils.data.random_split(data, [int(len(data) - len(data)/5), int( len(data)/5 )])
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=32,
+                                            shuffle=True, num_workers=4)
+    testloader = torch.utils.data.DataLoader(testset, batch_size=32,
+                                            shuffle=False, num_workers=4)
+
     net = AlexNet()
     net.to(device)
     criterion = nn.CrossEntropyLoss()
